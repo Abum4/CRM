@@ -69,7 +69,8 @@ def generate_admin_code() -> str:
     """Generate a new admin code that expires in 24 hours."""
     import secrets
     global _admin_code, _admin_code_expires
-    _admin_code = secrets.token_hex(4).upper()  # 8 character hex code
+    # Generate 6-digit code (e.g., 012345)
+    _admin_code = f"{secrets.randbelow(1000000):06d}"
     _admin_code_expires = datetime.utcnow() + timedelta(hours=24)
     return _admin_code
 

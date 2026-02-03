@@ -36,6 +36,19 @@ async def lifespan(app: FastAPI):
         from app.utils.security import generate_admin_code
         admin_code = generate_admin_code()
         logger.info(f"Admin code generated: {admin_code}")
+        
+        # Send code to Telegram
+        if settings.TELEGRAM_BOT_TOKEN and settings.ADMIN_TELEGRAM_CHAT_ID:
+            try:
+                from telegram_bot.bot import send_telegram_message
+                await send_telegram_message(
+                    settings.TELEGRAM_BOT_TOKEN,
+                    settings.ADMIN_TELEGRAM_CHAT_ID,
+                    f"🔐 <b>Код администратора</b>\n\n<code>{admin_code}</code>\n\n⏰ Действителен 24 часа"
+                )
+                logger.info("Admin code sent to Telegram")
+            except Exception as e:
+                logger.error(f"Failed to send Telegram message: {e}")
     except Exception as e:
         logger.error(f"Admin code generation failed: {e}")
     
