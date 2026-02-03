@@ -21,6 +21,7 @@ async def lifespan(app: FastAPI):
     logger.info("Starting CRM Backend...")
     logger.info(f"PORT: {os.environ.get('PORT', 'not set')}")
     logger.info(f"DATABASE_URL set: {bool(settings.DATABASE_URL)}")
+    logger.info(f"CORS ORIGINS: {settings.CORS_ORIGINS}")
     
     # Initialize database with error handling
     try:
