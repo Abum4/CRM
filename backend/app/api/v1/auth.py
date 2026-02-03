@@ -199,3 +199,13 @@ async def admin_login(
         data=AdminTokenResponse(token=token),
         success=True
     )
+
+
+@router.get("/admin/login", include_in_schema=False)
+async def admin_login_check():
+    """GET check for admin login endpoint."""
+    return ApiResponse(
+        success=False,
+        message="Please use POST method to login",
+        data=None
+    )
