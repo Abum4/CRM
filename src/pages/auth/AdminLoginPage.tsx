@@ -23,7 +23,7 @@ export default function AdminLoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!login || !password || !code) {
       toast({
         variant: 'destructive',
@@ -40,11 +40,11 @@ export default function AdminLoginPage() {
         api.setToken(response.data.token);
         navigate('/admin/dashboard');
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: 'destructive',
         title: t('common.error'),
-        description: t('auth.invalidCredentials'),
+        description: error.message || t('auth.invalidCredentials'),
       });
     } finally {
       setIsLoading(false);
@@ -56,7 +56,7 @@ export default function AdminLoginPage() {
       <div className="absolute top-4 right-4">
         <LanguageSwitcher />
       </div>
-      
+
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1 text-center">
           <div className="flex justify-center mb-4">
@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
           <CardTitle className="text-2xl font-bold">{t('admin.login')}</CardTitle>
           <CardDescription>{t('admin.codeFromTelegram')}</CardDescription>
         </CardHeader>
-        
+
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password">{t('auth.password')}</Label>
               <div className="relative">
@@ -124,9 +124,9 @@ export default function AdminLoginPage() {
               </p>
             </div>
 
-            <Button 
-              type="submit" 
-              className="w-full" 
+            <Button
+              type="submit"
+              className="w-full"
               disabled={isLoading}
             >
               {isLoading ? t('common.loading') : t('auth.login')}
